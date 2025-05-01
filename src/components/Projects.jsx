@@ -1,7 +1,7 @@
 // src/components/Projects.jsx
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt, FaBrain, FaLaptopCode } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt, FaBrain, FaLaptopCode, FaNetworkWired, FaChartLine } from 'react-icons/fa';
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -15,6 +15,24 @@ const Projects = () => {
       tech: ["Python", "Machine Learning", "Data Analysis", "Scikit-learn", "Pandas", "NumPy"],
       image: "disease-prediction",
       icon: <FaBrain className="text-[#0077B5]" size={32} />
+    },
+    {
+      id: 2,
+      title: "Local Network Vulnerability Scanner",
+      description: "A GUI-based tool to scan local networks for open ports, insecure services, and misconfigurations.",
+      details: "Developed a comprehensive network security scanning tool with an intuitive graphical interface. Implemented device discovery functionality to automatically map all devices on a local network. Created robust port and service scanning modules to identify open ports and running services that could present security risks. Built a risk classification system that analyzes findings and suggests specific remediation steps based on severity levels. Designed the application with modularity in mind for easy extension with additional scanning capabilities.",
+      tech: ["Python", "Network Security", "GUI Development", "Socket Programming", "Nmap", "Scapy"],
+      image: "vulnerability-scanner",
+      icon: <FaNetworkWired className="text-[#0077B5]" size={32} />
+    },
+    {
+      id: 3,
+      title: "Network Congestion Monitoring Dashboard",
+      description: "A real-time dashboard using SNMP and Streamlit to monitor traffic across a 12-switch campus network.",
+      details: "Built a comprehensive real-time network monitoring solution for a campus-wide network infrastructure. Leveraged SNMP (Simple Network Management Protocol) to collect detailed traffic metrics from 12 network switches. Implemented port-level bandwidth monitoring with customizable thresholds for detecting congestion issues. Developed visualization components using Streamlit to display network performance metrics in an intuitive dashboard. Created an alert system to notify administrators of potential bottlenecks and provide automated suggestions for switch reconfigurations to optimize traffic flow. The solution reduced network downtime by 37% within the first month of deployment.",
+      tech: ["Python", "SNMP", "Streamlit", "Network Monitoring", "Data Visualization", "Real-time Analytics"],
+      image: "network-dashboard",
+      icon: <FaChartLine className="text-[#0077B5]" size={32} />
     }
   ];
 
@@ -74,7 +92,7 @@ const Projects = () => {
                 <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech, index) => (
+                  {project.tech.slice(0, 4).map((tech, index) => (
                     <span 
                       key={index} 
                       className="text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 px-2 py-1 rounded-full"
@@ -82,6 +100,11 @@ const Projects = () => {
                       {tech}
                     </span>
                   ))}
+                  {project.tech.length > 4 && (
+                    <span className="text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full">
+                      +{project.tech.length - 4} more
+                    </span>
+                  )}
                 </div>
                 <button
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
