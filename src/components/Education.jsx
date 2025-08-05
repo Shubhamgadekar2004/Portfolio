@@ -10,6 +10,7 @@ const Education = () => {
       title: "Bachelor of Engineering in Computer Engineering",
       institution: "Pune University",
       period: "2021 — 2025*",
+      details: "CGPA: 7.68",
       icon: <FaGraduationCap size={20} />
     },
     {
