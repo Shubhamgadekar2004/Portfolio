@@ -7,6 +7,15 @@ const Education = () => {
     {
       id: 1,
       type: "education",
+      title: "M.Tech in Artificial Intelligence and Data Science",
+      institution: "National Forensic Sciences University (NFSU)",
+      period: "2025 — 2027*",
+      details: "Specialization in Cyber Security",
+      icon: <FaGraduationCap size={20} />
+    },
+    {
+      id: 2,
+      type: "education",
       title: "Bachelor of Engineering in Computer Engineering",
       institution: "Pune University",
       period: "2021 — 2025*",
@@ -14,7 +23,7 @@ const Education = () => {
       icon: <FaGraduationCap size={20} />
     },
     {
-      id: 2,
+      id: 3,
       type: "certification",
       title: "Google Cybersecurity Professional Certification",
       institution: "Google",
@@ -27,7 +36,7 @@ const Education = () => {
       icon: <FaCertificate size={20} />
     },
     {
-      id: 3,
+      id: 4,
       type: "certification",
       title: "Google AI Essentials",
       institution: "Google",
