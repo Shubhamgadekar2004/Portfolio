@@ -1,7 +1,6 @@
-// src/components/Projects.jsx
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt, FaBrain, FaLaptopCode, FaNetworkWired, FaChartLine } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt, FaBrain, FaLaptopCode, FaNetworkWired, FaChartLine, FaFingerprint } from 'react-icons/fa';
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -9,6 +8,17 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
+      title: "Hybrid Fingerprint Analysis",
+      description: "AI-powered forensic-grade fingerprint recognition system combining deep learning with classical image processing techniques.",
+      details: "Developed a hybrid fingerprint analysis system that reduces analysis time from 15-30 minutes to under 5 seconds. Implemented Level 1 pattern classification (Arch, Loop, Whorl) and Level 2 minutiae extraction (Ridge Endings, Bifurcations). Built core and delta point detection algorithms for advanced forensic matching. Achieved 90%+ accuracy on real-world datasets using a combination of PyTorch, EfficientNet for deep learning, and OpenCV for classical image processing. Designed for real-world security systems, law enforcement, and forensic laboratories.",
+      tech: ["PyTorch", "EfficientNet", "OpenCV", "Streamlit", "Deep Learning", "Computer Vision", "Image Processing"],
+      image: "fingerprint-analysis",
+      icon: <FaFingerprint className="text-[#0077B5]" size={32} />,
+      liveDemo: "https://lnkd.in/d8kqmreY",
+      github: "https://lnkd.in/dn9GvBha"
+    },
+    {
+      id: 2,
       title: "Disease Prediction System",
       description: "A machine learning-based system that predicts the risk of liver, diabetes, kidney, and heart diseases based on patient data.",
       details: "Developed a comprehensive health prediction system leveraging machine learning algorithms to analyze patient data for multiple diseases. Implemented various algorithms including Logistic Regression, Random Forest, Support Vector Machines, and Gradient Boosting for comparison and optimization. Applied data preprocessing techniques to handle missing values, detect outliers, and perform feature scaling to enhance model accuracy.",
@@ -17,7 +27,7 @@ const Projects = () => {
       icon: <FaBrain className="text-[#0077B5]" size={32} />
     },
     {
-      id: 2,
+      id: 3,
       title: "Local Network Vulnerability Scanner",
       description: "A GUI-based tool to scan local networks for open ports, insecure services, and misconfigurations.",
       details: "Developed a comprehensive network security scanning tool with an intuitive graphical interface. Implemented device discovery functionality to automatically map all devices on a local network. Created robust port and service scanning modules to identify open ports and running services that could present security risks. Built a risk classification system that analyzes findings and suggests specific remediation steps based on severity levels. Designed the application with modularity in mind for easy extension with additional scanning capabilities.",
@@ -26,7 +36,7 @@ const Projects = () => {
       icon: <FaNetworkWired className="text-[#0077B5]" size={32} />
     },
     {
-      id: 3,
+      id: 4,
       title: "Network Congestion Monitoring Dashboard",
       description: "A real-time dashboard using SNMP and Streamlit to monitor traffic across a 12-switch campus network.",
       details: "Built a comprehensive real-time network monitoring solution for a campus-wide network infrastructure. Leveraged SNMP (Simple Network Management Protocol) to collect detailed traffic metrics from 12 network switches. Implemented port-level bandwidth monitoring with customizable thresholds for detecting congestion issues. Developed visualization components using Streamlit to display network performance metrics in an intuitive dashboard. Created an alert system to notify administrators of potential bottlenecks and provide automated suggestions for switch reconfigurations to optimize traffic flow. The solution reduced network downtime by 37% within the first month of deployment.",
@@ -70,7 +80,7 @@ const Projects = () => {
         </motion.div>
 
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -90,9 +100,9 @@ const Projects = () => {
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">{project.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.slice(0, 4).map((tech, index) => (
+                  {project.tech.slice(0, 3).map((tech, index) => (
                     <span 
                       key={index} 
                       className="text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 px-2 py-1 rounded-full"
@@ -100,9 +110,9 @@ const Projects = () => {
                       {tech}
                     </span>
                   ))}
-                  {project.tech.length > 4 && (
+                  {project.tech.length > 3 && (
                     <span className="text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full">
-                      +{project.tech.length - 4} more
+                      +{project.tech.length - 3} more
                     </span>
                   )}
                 </div>
@@ -128,7 +138,7 @@ const Projects = () => {
               onClick={() => setSelectedProject(null)}
             >
               <motion.div
-                className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-3xl overflow-hidden"
+                className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-3xl overflow-hidden max-h-[90vh] overflow-y-auto"
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
@@ -158,7 +168,29 @@ const Projects = () => {
                     </div>
                   </div>
                   
-                  <div className="flex justify-end space-x-4">
+                  <div className="flex flex-wrap justify-end gap-3">
+                    {selectedProject.liveDemo && (
+                      <a
+                        href={selectedProject.liveDemo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2"
+                      >
+                        <FaExternalLinkAlt size={16} />
+                        Live Demo
+                      </a>
+                    )}
+                    {selectedProject.github && (
+                      <a
+                        href={selectedProject.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-gray-800 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2"
+                      >
+                        <FaGithub size={16} />
+                        GitHub
+                      </a>
+                    )}
                     <button
                       className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-300 font-medium py-2 px-6 rounded-lg transition-colors"
                       onClick={() => setSelectedProject(null)}
