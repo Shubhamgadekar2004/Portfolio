@@ -121,7 +121,7 @@ const Hero = ({ setActiveSection }) => {
           >
             <div className="absolute inset-2 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
             <img 
-  src="photo1.png" 
+  src="photo1.jpg" 
   alt="Profile"
   className="w-full h-full object-cover rounded-full"
 />
