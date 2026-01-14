@@ -1,7 +1,7 @@
 // src/components/Experience.jsx
 import { motion } from 'framer-motion';
 import { FaHandsHelping } from 'react-icons/fa';
-
+import WaveCanvas from './WaveCanvas';
 
 const Experience = () => {
   const experiences = [
@@ -53,8 +53,9 @@ const Experience = () => {
   };
 
   return (
-    <section id="experience" className="py-20 bg-gray-50 dark:bg-gray-800">
-      <div className="container mx-auto px-4">
+    <section id="experience" className="py-20 bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+      <WaveCanvas color="rgba(59, 130, 246, 0.2)" />
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: -20 }}

@@ -1,1 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+
+:root {
+	font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+	background-color: #0b1021;
+	color: #e5e7eb;
+}
+
+body {
+	min-height: 100vh;
+	background-color: #0b1021;
+	line-height: 1.6;
+	letter-spacing: 0.01em;
+}
+
+.hero-surface {
+	background: radial-gradient(circle at 12% 20%, rgba(34, 211, 238, 0.08), transparent 28%),
+		radial-gradient(circle at 82% 0%, rgba(168, 85, 247, 0.08), transparent 26%),
+		radial-gradient(circle at 45% 88%, rgba(59, 130, 246, 0.08), transparent 30%),
+		#0b1021;
+}
+
+.pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.45rem 0.85rem;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: rgba(255, 255, 255, 0.05);
+	color: #cbd5f5;
+	font-size: 0.85rem;
+	backdrop-filter: blur(10px);
+}
+
+.primary-cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.85rem 1.4rem;
+	border-radius: 14px;
+	background: linear-gradient(120deg, #22d3ee, #3b82f6, #a855f7);
+	color: #0b1021;
+	font-weight: 700;
+	letter-spacing: 0.01em;
+	box-shadow: 0 15px 40px rgba(59, 130, 246, 0.35);
+}
+
+.secondary-cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.85rem 1.3rem;
+	border-radius: 14px;
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	background: rgba(255, 255, 255, 0.06);
+	color: #e5e7eb;
+	font-weight: 600;
+}
+
+.glass-card {
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+	border-radius: 16px;
+	padding: 1.1rem 1rem;
+	box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+	backdrop-filter: blur(10px);
+}
+
+.social-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.55rem 1rem;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	background: rgba(255, 255, 255, 0.04);
+	color: #e5e7eb;
+}
+
+.animate-pulse-slow {
+	animation: pulse-slow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+	0%,
+	100% {
+		opacity: 0.6;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.05);
+	}
+}

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { TbBrandPython, TbBrandCpp, TbBrandHtml5, TbBrandCss3, TbBrandJavascript, TbSql } from 'react-icons/tb';
 import { FaNetworkWired, FaTools, FaDatabase, FaShieldAlt, FaLinux } from 'react-icons/fa';
 import { MdSecurity, MdAutoGraph } from 'react-icons/md';
+import WaveCanvas from './WaveCanvas';
 
 const Skills = () => {
   const technicalSkills = [
@@ -50,8 +51,9 @@ const Skills = () => {
   };
 
   return (
-    <section id="skills" className="py-20 bg-gray-50 dark:bg-gray-800">
-      <div className="container mx-auto px-4">
+    <section id="skills" className="py-20 bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+      <WaveCanvas color="rgba(147, 51, 234, 0.2)" />
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: -20 }}

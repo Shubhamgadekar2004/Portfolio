@@ -1,12 +1,21 @@
 // src/components/Hero.jsx
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowDown } from 'react-icons/fa';
 import Typewriter from 'typewriter-effect';
+import ParticlesCanvas from './ParticlesCanvas';
 
 const Hero = ({ setActiveSection }) => {
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 pt-16">
-      <div className="container mx-auto px-4 py-16 flex flex-col md:flex-row items-center justify-between">
+    <section id="home" className="min-h-screen flex items-center justify-center relative bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 pt-16 overflow-hidden">
+      <ParticlesCanvas particleCount={80} />
+      <motion.div 
+        className="container mx-auto px-4 py-16 flex flex-col md:flex-row items-center justify-between"
+        style={{ y, opacity }}
+      >
         <motion.div 
           className="md:w-1/2 text-center md:text-left mb-10 md:mb-0"
           initial={{ opacity: 0, x: -50 }}
@@ -95,19 +104,32 @@ const Hero = ({ setActiveSection }) => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
+          whileHover={{ scale: 1.05, rotateY: 10 }}
+          style={{ perspective: 1000 }}
         >
-          <div className="relative w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full overflow-hidden shadow-2xl">
+          <motion.div 
+            className="relative w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full overflow-hidden shadow-2xl"
+            animate={{ 
+              rotateY: [0, 5, 0, -5, 0],
+              rotateX: [0, 2, 0, -2, 0]
+            }}
+            transition={{ 
+              duration: 6, 
+              repeat: Infinity,
+              ease: "easeInOut" 
+            }}
+          >
             <div className="absolute inset-2 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
             <img 
-  src="photo1.jpg" 
+  src="photo1.png" 
   alt="Profile"
   className="w-full h-full object-cover rounded-full"
 />
 
             </div>
-          </div>
+          </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
       
       <motion.a
         href="#about"

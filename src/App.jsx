@@ -1,20 +1,19 @@
 // src/App.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope, FaBriefcase, FaGraduationCap, FaTools, FaCertificate } from 'react-icons/fa';
-import { TbBrandPython, TbBrandCpp, TbBrandHtml5, TbBrandCss3, TbBrandJavascript, TbSql } from 'react-icons/tb';
-import { MdSecurity, MdAutoGraph, MdCode } from 'react-icons/md';
 
 // Component imports
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Projects from './components/Projects';
-import Experience from './components/Experience';
-import Education from './components/Education';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
+
+// Lazy load components for better performance
+const About = lazy(() => import('./components/About'));
+const Skills = lazy(() => import('./components/Skills'));
+const Projects = lazy(() => import('./components/Projects'));
+const Experience = lazy(() => import('./components/Experience'));
+const Education = lazy(() => import('./components/Education'));
+const Contact = lazy(() => import('./components/Contact'));
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -34,12 +33,14 @@ const App = () => {
       
       <main>
         <Hero setActiveSection={setActiveSection} />
-        <About />
-        <Education />
-        <Skills />
-        <Projects />
-        <Experience />
-        <Contact />
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div></div>}>
+          <About />
+          <Education />
+          <Skills />
+          <Projects />
+          <Experience />
+          <Contact />
+        </Suspense>
       </main>
       
       <Footer />

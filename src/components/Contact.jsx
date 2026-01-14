@@ -1,8 +1,9 @@
 // src/components/Contact.jsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaPaperPlane, FaGithub, FaLinkedin } from 'react-icons/fa';
-import {  FaHeart } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaPaperPlane, FaGithub, FaLinkedin, FaHeart } from 'react-icons/fa';
+import ParticlesCanvas from './ParticlesCanvas';
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -55,8 +56,9 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4">
+    <section id="contact" className="py-20 bg-white dark:bg-gray-900 relative overflow-hidden">
+      <ParticlesCanvas particleCount={70} />
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: -20 }}

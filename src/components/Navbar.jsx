@@ -1,7 +1,44 @@
 // src/components/Navbar.jsx
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
+
+const MagneticButton = ({ children, className, ...props }) => {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springConfig = { damping: 20, stiffness: 300 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
+
+  const handleMouseMove = (e) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * 0.3);
+    y.set((e.clientY - centerY) * 0.3);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={className}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 const Navbar = ({ activeSection, setActiveSection, darkMode, setDarkMode }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -54,30 +91,41 @@ const Navbar = ({ activeSection, setActiveSection, darkMode, setDarkMode }) => {
           <ul className="flex space-x-6">
             {navItems.map(item => (
               <li key={item.id}>
-                <motion.a
-                  href={`#${item.id}`}
-                  className={`cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 transition-colors ${
-                    activeSection === item.id 
-                      ? 'text-blue-600 dark:text-blue-400 font-medium' 
-                      : 'text-gray-700 dark:text-gray-300'
-                  }`}
-                  onClick={() => setActiveSection(item.id)}
-                  whileHover={{ scale: 1.1 }}
-                >
-                  {item.label}
-                </motion.a>
+                <MagneticButton>
+                  <motion.a
+                    href={`#${item.id}`}
+                    className={`cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative ${
+                      activeSection === item.id 
+                        ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                        : 'text-gray-700 dark:text-gray-300'
+                    }`}
+                    onClick={() => setActiveSection(item.id)}
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    {item.label}
+                    {activeSection === item.id && (
+                      <motion.div
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"
+                        layoutId="navbar-indicator"
+                        transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
+                      />
+                    )}
+                  </motion.a>
+                </MagneticButton>
               </li>
             ))}
           </ul>
           
-          <motion.button
-            className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-            onClick={() => setDarkMode(!darkMode)}
-            whileHover={{ scale: 1.1, rotate: 180 }}
-            transition={{ duration: 0.3 }}
-          >
-            {darkMode ? <FaSun /> : <FaMoon />}
-          </motion.button>
+          <MagneticButton>
+            <motion.button
+              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+              onClick={() => setDarkMode(!darkMode)}
+              whileHover={{ scale: 1.1, rotate: 180 }}
+              transition={{ duration: 0.3 }}
+            >
+              {darkMode ? <FaSun /> : <FaMoon />}
+            </motion.button>
+          </MagneticButton>
         </div>
 
         {/* Mobile Menu Button */}

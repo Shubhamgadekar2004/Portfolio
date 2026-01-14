@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt, FaBrain, FaLaptopCode, FaNetworkWired, FaChartLine, FaFingerprint } from 'react-icons/fa';
+import ParticlesCanvas from './ParticlesCanvas';
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -66,8 +67,9 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4">
+    <section id="projects" className="py-20 bg-white dark:bg-gray-900 relative overflow-hidden">
+      <ParticlesCanvas particleCount={60} particleColor="rgba(147, 51, 234, 0.4)" />
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: -20 }}
@@ -91,7 +93,14 @@ const Projects = () => {
               key={project.id}
               className="bg-gray-50 dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
               variants={itemVariants}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              whileHover={{ 
+                y: -10, 
+                scale: 1.03,
+                rotateY: 5,
+                boxShadow: "0 25px 50px rgba(0,0,0,0.3)",
+                transition: { duration: 0.3 } 
+              }}
+              style={{ perspective: 1000 }}
             >
               <div className="h-48 bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
                 <div className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
