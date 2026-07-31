@@ -1,71 +1,88 @@
+// src/components/Footer.jsx
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaHeart } from 'react-icons/fa';
 
 const Footer = () => {
+  const socialLinks = [
+    { icon: <FaGithub size={18} />, href: 'https://github.com/Shubhamgadekar2004', label: 'GitHub' },
+    { icon: <FaLinkedin size={18} />, href: 'https://www.linkedin.com/in/shubham-gadekar04/', label: 'LinkedIn' },
+    { icon: <FaEnvelope size={18} />, href: 'mailto:shubham.gadekar2025@gmail.com', label: 'Email' },
+  ];
+
   return (
-    <footer className="bg-gray-900 text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <motion.div 
-            className="mb-6 md:mb-0"
-            initial={{ opacity: 0, y: 20 }}
+    <footer className="relative z-10 border-t" style={{ borderColor: 'rgba(255,255,255,0.04)' }}>
+      {/* Gradient Line */}
+      <div className="section-divider" />
+
+      <div className="container-cyber py-12">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          {/* Branding */}
+          <motion.div
+            className="text-center md:text-left"
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text mb-2">
+            <h2
+              className="text-xl font-bold gradient-text mb-1"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
               Shubham Gadekar
             </h2>
-            <p className="text-gray-400">Computer Engineering Student | Cybersecurity Enthusiast</p>
+            <p className="text-gray-500 text-sm" style={{ fontFamily: 'var(--font-mono)' }}>
+              Computer Engineering Student | Cybersecurity Enthusiast
+            </p>
           </motion.div>
-          
-          <motion.div 
-            className="flex space-x-6"
-            initial={{ opacity: 0, y: 20 }}
+
+          {/* Social Links */}
+          <motion.div
+            className="flex gap-3"
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <motion.a
-              href="https://github.com/Shubhamgadekar2004"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white"
-              whileHover={{ scale: 1.2, color: "#FFFFFF" }}
-            >
-              <FaGithub size={24} />
-            </motion.a>
-            <motion.a
-              href="https://www.linkedin.com/in/shubham-gadekar04/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white"
-              whileHover={{ scale: 1.2, color: "#FFFFFF" }}
-            >
-              <FaLinkedin size={24} />
-            </motion.a>
-            <motion.a
-              href="mailto:shubham.gadekar2025@gmail.com"
-              className="text-gray-400 hover:text-white"
-              whileHover={{ scale: 1.2, color: "#FFFFFF" }}
-            >
-              <FaEnvelope size={24} />
-            </motion.a>
+            {socialLinks.map((link) => (
+              <motion.a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith('http') ? '_blank' : undefined}
+                rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300"
+                style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                  color: '#64748b',
+                }}
+                whileHover={{
+                  borderColor: 'rgba(34, 211, 238, 0.3)',
+                  color: '#e2e8f0',
+                  boxShadow: '0 0 15px rgba(34, 211, 238, 0.1)',
+                  scale: 1.1,
+                }}
+                aria-label={link.label}
+              >
+                {link.icon}
+              </motion.a>
+            ))}
           </motion.div>
         </div>
-        
-        <motion.div 
-          className="border-t border-gray-800 mt-8 pt-8 text-center"
+
+        {/* Bottom */}
+        <motion.div
+          className="mt-8 pt-6 text-center"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-600 text-sm" style={{ fontFamily: 'var(--font-mono)' }}>
             © {new Date().getFullYear()} Shubham Gadekar. All rights reserved.
           </p>
-          <p className="text-gray-400 text-sm mt-2 flex items-center justify-center">
-            Made with <FaHeart className="text-red-500 mx-1" /> using React
+          <p className="text-gray-600 text-sm mt-1 flex items-center justify-center gap-1" style={{ fontFamily: 'var(--font-mono)' }}>
+            Made with <FaHeart className="text-red-500" size={12} /> using React
           </p>
         </motion.div>
       </div>

@@ -1,24 +1,22 @@
 // src/components/Navbar.jsx
 import { useState, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
+import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const MagneticButton = ({ children, className, ...props }) => {
   const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-
-  const springConfig = { damping: 20, stiffness: 300 };
-  const springX = useSpring(x, springConfig);
-  const springY = useSpring(y, springConfig);
+  const springX = useSpring(x, { damping: 20, stiffness: 300 });
+  const springY = useSpring(y, { damping: 20, stiffness: 300 });
 
   const handleMouseMove = (e) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    x.set((e.clientX - centerX) * 0.3);
-    y.set((e.clientY - centerY) * 0.3);
+    x.set((e.clientX - centerX) * 0.2);
+    y.set((e.clientY - centerY) * 0.2);
   };
 
   const handleMouseLeave = () => {
@@ -40,145 +38,196 @@ const MagneticButton = ({ children, className, ...props }) => {
   );
 };
 
-const Navbar = ({ activeSection, setActiveSection, darkMode, setDarkMode }) => {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const navItems = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'System Profile' },
+  { id: 'education', label: 'Education' },
+  { id: 'skills', label: 'Skill Matrix' },
+  { id: 'projects', label: 'Project Lab' },
+  { id: 'experience', label: 'Field Ops' },
+  { id: 'contact', label: 'Contact' },
+];
 
-  const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'education', label: 'Education' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'contact', label: 'Contact' },
-  ];
+const Navbar = ({ onCommandPalette }) => {
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
+      setScrolled(window.scrollY > 50);
+
+      // Determine active section
+      const sections = navItems.map(item => document.getElementById(item.id)).filter(Boolean);
+      const scrollPos = window.scrollY + 200;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        if (sections[i].offsetTop <= scrollPos) {
+          setActiveSection(navItems[i].id);
+          break;
+        }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <motion.nav 
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-white bg-opacity-80 backdrop-blur-md shadow-md dark:bg-gray-900 dark:bg-opacity-80' 
-          : 'bg-transparent'
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+    <motion.nav
+      className="fixed top-4 left-1/2 z-50"
+      style={{ transform: 'translateX(-50%)' }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <motion.div 
-          className="text-2xl font-bold"
-          whileHover={{ scale: 1.05 }}
-        >
-          <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-transparent bg-clip-text">Shubham Gadekar</span>
-        </motion.div>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-8">
-          <ul className="flex space-x-6">
-            {navItems.map(item => (
-              <li key={item.id}>
-                <MagneticButton>
-                  <motion.a
-                    href={`#${item.id}`}
-                    className={`cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 transition-colors relative ${
-                      activeSection === item.id 
-                        ? 'text-blue-600 dark:text-blue-400 font-medium' 
-                        : 'text-gray-700 dark:text-gray-300'
-                    }`}
-                    onClick={() => setActiveSection(item.id)}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    {item.label}
-                    {activeSection === item.id && (
-                      <motion.div
-                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"
-                        layoutId="navbar-indicator"
-                        transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
-                      />
-                    )}
-                  </motion.a>
-                </MagneticButton>
-              </li>
-            ))}
-          </ul>
-          
-          <MagneticButton>
-            <motion.button
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-              onClick={() => setDarkMode(!darkMode)}
-              whileHover={{ scale: 1.1, rotate: 180 }}
-              transition={{ duration: 0.3 }}
+      {/* Desktop Nav */}
+      <div
+        className="hidden lg:flex items-center gap-1 px-2 py-2 rounded-full transition-all duration-500"
+        style={{
+          background: scrolled ? 'rgba(3, 7, 18, 0.85)' : 'rgba(3, 7, 18, 0.5)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: `1px solid ${scrolled ? 'rgba(34, 211, 238, 0.15)' : 'rgba(255, 255, 255, 0.06)'}`,
+          boxShadow: scrolled
+            ? '0 0 20px rgba(34, 211, 238, 0.05), 0 8px 32px rgba(0,0,0,0.4)'
+            : '0 8px 32px rgba(0,0,0,0.2)',
+        }}
+      >
+        {navItems.map(item => (
+          <MagneticButton key={item.id}>
+            <button
+              onClick={() => scrollToSection(item.id)}
+              className="relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300"
+              style={{
+                fontFamily: 'var(--font-body)',
+                color: activeSection === item.id ? '#fff' : '#94a3b8',
+              }}
             >
-              {darkMode ? <FaSun /> : <FaMoon />}
-            </motion.button>
+              {activeSection === item.id && (
+                <motion.div
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: 'rgba(34, 211, 238, 0.1)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
+                  layoutId="nav-active"
+                  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <span className="relative z-10">{item.label}</span>
+            </button>
           </MagneticButton>
-        </div>
+        ))}
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center">
-          <motion.button
-            className="p-2 mr-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-            onClick={() => setDarkMode(!darkMode)}
-            whileHover={{ scale: 1.1 }}
-          >
-            {darkMode ? <FaSun /> : <FaMoon />}
-          </motion.button>
-          
-          <motion.button
-            className="p-2 rounded-full bg-blue-500 text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            whileHover={{ scale: 1.1 }}
-          >
-            {mobileMenuOpen ? <FaTimes /> : <FaBars />}
-          </motion.button>
-        </div>
+        {/* Command Palette Trigger */}
+        <div className="w-px h-5 mx-1" style={{ background: 'rgba(255,255,255,0.08)' }} />
+        <button
+          onClick={onCommandPalette}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all duration-200"
+          style={{
+            fontFamily: 'var(--font-mono)',
+            color: '#64748b',
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.06)',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = 'rgba(34, 211, 238, 0.2)';
+            e.currentTarget.style.color = '#94a3b8';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+            e.currentTarget.style.color = '#64748b';
+          }}
+        >
+          <span>⌘K</span>
+        </button>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <motion.div
-          className="md:hidden bg-white dark:bg-gray-800 shadow-lg"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3 }}
+      {/* Mobile Nav */}
+      <div className="lg:hidden">
+        <div
+          className="flex items-center gap-3 px-4 py-3 rounded-2xl"
+          style={{
+            background: 'rgba(3, 7, 18, 0.85)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255,255,255,0.06)',
+          }}
         >
-          <ul className="flex flex-col px-4 py-2">
-            {navItems.map(item => (
-              <li key={item.id} className="py-2">
-                <a
-                  href={`#${item.id}`}
-                  className={`block px-4 py-2 rounded-md ${
-                    activeSection === item.id 
-                      ? 'bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400' 
-                      : 'text-gray-700 dark:text-gray-300'
-                  }`}
-                  onClick={() => {
-                    setActiveSection(item.id);
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-      )}
+          <span
+            className="text-sm font-semibold gradient-text"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            SG
+          </span>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-lg transition-colors"
+            style={{
+              color: '#94a3b8',
+              background: 'rgba(255,255,255,0.05)',
+            }}
+          >
+            {mobileMenuOpen ? <FaTimes size={16} /> : <FaBars size={16} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              className="fixed inset-0 top-0 left-0 z-[100] flex flex-col items-center justify-center"
+              style={{
+                background: 'rgba(3, 7, 18, 0.95)',
+                backdropFilter: 'blur(20px)',
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="absolute top-6 right-6 p-3 rounded-xl"
+                style={{
+                  color: '#94a3b8',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                }}
+              >
+                <FaTimes size={18} />
+              </button>
+
+              <nav className="flex flex-col items-center gap-2">
+                {navItems.map((item, index) => (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className="px-8 py-3 rounded-xl text-lg font-medium transition-all"
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      color: activeSection === item.id ? 'var(--neon-cyan)' : '#94a3b8',
+                      background: activeSection === item.id ? 'rgba(34, 211, 238, 0.08)' : 'transparent',
+                      border: activeSection === item.id ? '1px solid rgba(34, 211, 238, 0.15)' : '1px solid transparent',
+                    }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                  >
+                    {item.label}
+                  </motion.button>
+                ))}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </motion.nav>
   );
 };

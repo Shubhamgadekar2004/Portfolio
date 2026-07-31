@@ -1,128 +1,189 @@
 // src/components/Education.jsx
 import { motion } from 'framer-motion';
-import { FaGraduationCap, FaCertificate } from 'react-icons/fa';
-import NetworkCanvas from './NetworkCanvas';
+import { FaGraduationCap, FaCertificate, FaShieldAlt, FaAward } from 'react-icons/fa';
+import SectionHeader from './ui/SectionHeader';
+import GlassCard from './ui/GlassCard';
 
 const Education = () => {
   const educationData = [
     {
       id: 1,
-      type: "education",
-      title: "M.Tech in Artificial Intelligence and Data Science",
-      institution: "National Forensic Sciences University (NFSU)",
-      period: "2025 — 2027*",
-      details: "Specialization in Cyber Security",
-      icon: <FaGraduationCap size={20} />
+      type: 'education',
+      title: 'M.Tech in AI & Data Science (Cybersecurity Specialization)',
+      institution: 'National Forensic Sciences University (NFSU), Goa Campus',
+      period: '2025 — Present',
+      details: [
+        'Specialized coursework in cybersecurity, digital forensics, embedded systems security, and threat modeling',
+        'Focus on connected vehicle security, IoT security architectures, and ML-driven anomaly detection',
+      ],
+      icon: <FaGraduationCap size={18} />,
+      accent: 'cyan',
     },
     {
       id: 2,
-      type: "education",
-      title: "Bachelor of Engineering in Computer Engineering",
-      institution: "Pune University",
-      period: "2021 — 2025",
-      details: "CGPA: 7.68",
-      icon: <FaGraduationCap size={20} />
+      type: 'education',
+      title: 'B.E. in Computer Engineering',
+      institution: 'Savitribai Phule Pune University',
+      period: '2021 — 2025',
+      details: 'Organized cybersecurity awareness workshops and digital literacy programs for students and faculty',
+      icon: <FaGraduationCap size={18} />,
+      accent: 'purple',
     },
     {
       id: 3,
-      type: "certification",
-      title: "Google Cybersecurity Professional Certification",
-      institution: "Google",
+      type: 'certification',
+      title: 'Google Cybersecurity Professional Certificate',
+      institution: 'Google',
       details: [
-        "Understanding cybersecurity practices and their impact on organizations",
-        "Protecting networks, devices, people, and data from unauthorized access",
-        "Identifying common risks, threats, vulnerabilities, and applying mitigation techniques",
-        "Experience with Python, Linux, and SQL"
+        'Completed 8-course program covering threat detection, network security, incident response, and SIEM tools',
+        'Hands-on experience with Linux, SQL, Python scripting for security automation, and security frameworks (NIST, CIA Triad)',
       ],
-      icon: <FaCertificate size={20} />
+      icon: <FaCertificate size={18} />,
+      accent: 'emerald',
     },
     {
       id: 4,
-      type: "certification",
-      title: "Google AI Essentials",
-      institution: "Google",
-      details: "Comprehensive understanding of AI fundamentals, applications, and ethical considerations",
-      icon: <FaCertificate size={20} />
-    }
+      type: 'certification',
+      title: 'CASA Certified API Security Analyst',
+      institution: 'CASA',
+      details: [
+        'Industry recognized certification validating expertise in API security testing and secure API design',
+        'Covers OWASP API Security Top 10, authentication flaws, injection attacks, broken access control, and rate limiting',
+      ],
+      icon: <FaShieldAlt size={18} />,
+      accent: 'pink',
+    },
+    {
+      id: 5,
+      type: 'certification',
+      title: 'UGC NET Computer Science & Applications',
+      institution: 'National Testing Agency (NTA)',
+      details: 'Achieved 89.28 Percentile national level validation of core CS and cybersecurity knowledge',
+      icon: <FaAward size={18} />,
+      accent: 'blue',
+    },
   ];
+
+  const accentMap = {
+    cyan: 'var(--neon-cyan)',
+    purple: 'var(--neon-purple)',
+    emerald: 'var(--neon-emerald)',
+    pink: 'var(--neon-pink)',
+    blue: 'var(--neon-blue)',
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.3
-      }
-    }
+      transition: { staggerChildren: 0.15 },
+    },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
-    }
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+    },
   };
 
   return (
-    <section id="education" className="py-20 bg-white dark:bg-gray-900 relative overflow-hidden">
-      <NetworkCanvas />
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Education & Certifications</h2>
-          <div className="w-40 h-1 bg-blue-600 mx-auto"></div>
-        </motion.div>
+    <section id="education" className="relative z-10" style={{ padding: 'var(--section-py) 0' }}>
+      <div className="container-cyber">
+        <SectionHeader
+          label="// 02 — Credentials"
+          title="EDUCATION & CERTIFICATIONS"
+          subtitle="Academic foundation and professional certifications in cybersecurity, AI, and forensics."
+        />
 
-        <motion.div 
-          className="max-w-3xl mx-auto relative"
-          variants={containerVariants}
+        {/* Timeline */}
+        <motion.div
+          className="max-w-4xl mx-auto relative"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
+          variants={containerVariants}
         >
-          {/* Timeline line */}
-          <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-gray-200 dark:bg-gray-700"></div>
-          
+          {/* Timeline Line */}
+          <div
+            className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px"
+            style={{
+              background: 'linear-gradient(to bottom, rgba(34, 211, 238, 0.3), rgba(168, 85, 247, 0.3), rgba(59, 130, 246, 0.1))',
+            }}
+          />
+
           {educationData.map((item, index) => (
-            <motion.div 
+            <motion.div
               key={item.id}
               className={`relative flex flex-col md:flex-row mb-12 ${
                 index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
               }`}
               variants={itemVariants}
             >
-              {/* Timeline dot */}
-              <div className="absolute left-4 md:left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-blue-600 dark:bg-blue-500 z-10 flex items-center justify-center text-white">
+              {/* Timeline Node */}
+              <motion.div
+                className="absolute left-6 md:left-1/2 -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center z-10"
+                style={{
+                  background: 'var(--bg-deep)',
+                  border: `2px solid ${accentMap[item.accent]}`,
+                  boxShadow: `0 0 20px ${accentMap[item.accent]}40`,
+                  color: accentMap[item.accent],
+                }}
+                whileHover={{ scale: 1.2, boxShadow: `0 0 30px ${accentMap[item.accent]}60` }}
+              >
                 {item.icon}
-              </div>
-              
-              {/* Content box */}
-              <div className={`ml-12 md:ml-0 md:w-1/2 ${
-                index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'
+              </motion.div>
+
+              {/* Card */}
+              <div className={`ml-20 md:ml-0 md:w-[calc(50%-2rem)] ${
+                index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'
               }`}>
-                <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <h3 className="text-xl font-bold mb-2 text-blue-600 dark:text-blue-400">{item.title}</h3>
-                  <h4 className="text-gray-600 dark:text-gray-400 mb-2">{item.institution}</h4>
-                  
-                  {item.period && <p className="text-gray-500 dark:text-gray-500 mb-4">{item.period}</p>}
-                  
+                <GlassCard accentColor={item.accent}>
+                  {/* Type Badge */}
+                  <span
+                    className="inline-block px-2 py-0.5 rounded text-xs uppercase tracking-wider mb-3"
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      color: accentMap[item.accent],
+                      background: `${accentMap[item.accent]}10`,
+                      border: `1px solid ${accentMap[item.accent]}20`,
+                    }}
+                  >
+                    {item.type === 'certification' ? '⊕ Certification' : '◎ Degree'}
+                  </span>
+
+                  <h3
+                    className="text-lg font-bold text-white mb-2"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    {item.title}
+                  </h3>
+
+                  <p className="text-gray-400 text-sm mb-2" style={{ fontFamily: 'var(--font-mono)' }}>
+                    {item.institution}
+                  </p>
+
+                  {item.period && (
+                    <p className="text-gray-500 text-xs mb-3" style={{ fontFamily: 'var(--font-mono)' }}>
+                      {item.period}
+                    </p>
+                  )}
+
                   {typeof item.details === 'string' ? (
-                    <p className="text-gray-700 dark:text-gray-300">{item.details}</p>
+                    <p className="text-gray-300 text-sm">{item.details}</p>
                   ) : (
-                    <ul className="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                    <ul className="space-y-1.5">
                       {item.details.map((detail, i) => (
-                        <li key={i}>{detail}</li>
+                        <li key={i} className="text-gray-400 text-sm flex items-start gap-2">
+                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: accentMap[item.accent] }} />
+                          {detail}
+                        </li>
                       ))}
                     </ul>
                   )}
-                </div>
+                </GlassCard>
               </div>
             </motion.div>
           ))}
